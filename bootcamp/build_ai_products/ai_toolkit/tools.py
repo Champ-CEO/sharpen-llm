@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Literal
 
 import requests
 from ollama import chat
+from pydantic import BaseModel, Field
 from rich import print as pprint
 from rich.console import Console
 from rich.markdown import Markdown
@@ -17,26 +18,20 @@ TRIVIA_CATEGORY_IDS = {
     "vehicles": 28,
 }
 
+
+class FetchTriviaParameters(BaseModel):
+    count: int = Field(description="The number of quiz questions to fetch.")
+    category: Literal["computers", "vehicles"] = Field(
+        description="The category of quiz questions. Allowed values are 'computers' and 'vehicles'."
+    )
+
+
 TOOL_SPEC = {
     "type": "function",
     "function": {
         "name": "fetch_trivia_questions",
         "description": "Retrieve a list of quiz questions from the Open Trivia Database API based on the provided count and category.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer",
-                    "description": "The number of quiz questions to fetch.",
-                },
-                "category": {
-                    "type": "string",
-                    "description": "The category of quiz questions. Allowed values are 'computers' and 'vehicles'.",
-                    "enum": ["computers", "vehicles"],
-                },
-            },
-            "required": ["count", "category"],
-        },
+        "parameters": FetchTriviaParameters.model_json_schema(),
     },
 }
 
