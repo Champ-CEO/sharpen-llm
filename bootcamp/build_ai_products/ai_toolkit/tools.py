@@ -67,6 +67,7 @@ def execute_tool_call(prompt: str) -> List[Dict[str, Any]]:
     )
 
     message = response.message
+    messages.append(message)
     pprint(message)
 
     tool = message.tool_calls[0]
@@ -74,7 +75,6 @@ def execute_tool_call(prompt: str) -> List[Dict[str, Any]]:
     tool_result = tool_to_call(**tool.function.arguments)
     pprint(tool_result)
 
-    messages.append(message)
     messages.append(
         {"role": "tool", "content": str(tool_result), "name": tool.function.name}
     )
