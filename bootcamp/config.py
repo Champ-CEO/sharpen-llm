@@ -15,9 +15,13 @@ class Config:
         DATA_DIR = APP_HOME / "data"
 
     class Model:
-        JUDGE_LLM = "qwen2.5"
-        QWEN = "qwen2.5"
-        DEEPSEEK_R1 = "deepseek-r1:14b"
+        JUDGE_LLM = "llama-3.3-70b-versatile"  # Updated to Groq model
+        QWEN = "llama-3.3-70b-versatile"  # Updated to Groq model
+        DEEPSEEK_R1 = "deepseek-r1-distill-llama-70b"  # Updated to Groq model
+
+        # New Groq model IDs
+        LLAMA_3_3_70B = "llama-3.3-70b-versatile"
+        DEEPSEEK_R1_DISTILL = "deepseek-r1-distill-llama-70b"
 
     class Dataset:
         CRYPTO_NEWS = "crypto-news"

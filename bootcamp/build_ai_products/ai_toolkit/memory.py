@@ -1,6 +1,7 @@
-from ollama import chat
+from bootcamp.groq_client import chat
+from bootcamp.config import Config
 
-MODEL = "qwen2.5"
+MODEL = Config.Model.LLAMA_3_3_70B
 TEMPERATURE = 0
 
 
@@ -22,8 +23,7 @@ messages = [
 response = chat(
     model=MODEL,
     messages=messages,
-    keep_alive=-1,
-    options={"temperature": TEMPERATURE},
+    temperature=TEMPERATURE,
 )
 
 

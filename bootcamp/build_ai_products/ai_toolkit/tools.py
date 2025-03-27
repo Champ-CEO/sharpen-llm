@@ -1,15 +1,16 @@
 from typing import Any, Dict, List, Literal
 
 import requests
-from ollama import chat
+from bootcamp.groq_client import chat
 from pydantic import BaseModel, Field
 from rich import print as pprint
 from rich.console import Console
 from rich.markdown import Markdown
+from bootcamp.config import Config
 
 from bootcamp.build_ai_products.ai_toolkit.question import QuizQuestion
 
-MODEL = "qwen2.5"
+MODEL = Config.Model.LLAMA_3_3_70B
 TEMPERATURE = 0
 
 TRIVIA_API_URL = "https://opentdb.com/api.php"
@@ -37,7 +38,7 @@ TOOL_SPEC = {
 
 
 def fetch_trivia_questions(
-    count: int, category: str = Literal["computers", "vehicles"]
+    count: int, category: Literal["computers", "vehicles"] = "computers"
 ) -> List[QuizQuestion]:
     params = {
         "amount": count,
@@ -61,8 +62,7 @@ def execute_tool_call(prompt: str) -> List[Dict[str, Any]]:
     response = chat(
         model=MODEL,
         messages=messages,
-        keep_alive=-1,
-        options={"temperature": TEMPERATURE},
+        temperature=TEMPERATURE,
         tools=[TOOL_SPEC],
     )
 
@@ -86,8 +86,7 @@ def display_final_response(messages: List[Dict[str, Any]]):
     final_response = chat(
         model=MODEL,
         messages=messages,
-        keep_alive=-1,
-        options={"temperature": TEMPERATURE},
+        temperature=TEMPERATURE,
     )
 
     console = Console()

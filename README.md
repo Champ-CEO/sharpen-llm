@@ -44,17 +44,28 @@ Install pre-commit hooks:
 uv run pre-commit install
 ```
 
-### Run Ollama
+### Setup Groq API
 
-Most of the tutorials use Ollama for LLM inference (to run models locally). Watch this video to see how to install Ollama: https://www.youtube.com/watch?v=lmFCVCqOlz8
+The tutorials use Groq API for LLM inference. Follow these steps to set up your environment:
 
-To get a model for the tutorials, run (example for Qwen 2.5):
+1. Sign up for a Groq account at [groq.com](https://console.groq.com/signup) and get your API key
+2. Create a `.env` file in the project root (or copy from `.env.template`):
+   ```bash
+   cp .env.template .env
+   ```
+3. Add your Groq API key to the `.env` file:
+   ```
+   GROQ_API_KEY=your_api_key_here
+   ```
 
+The bootcamp uses two main models:
+- `llama-3.3-70b-versatile` - For general tasks
+- `deepseek-r1-distill-llama-70b` - For complex reasoning tasks
+
+You can validate your API setup by running:
 ```bash
-ollama pull qwen2.5
+python test_groq_api.py
 ```
-
-Feel free to experiment with other models.
 
 ## Datasets
 

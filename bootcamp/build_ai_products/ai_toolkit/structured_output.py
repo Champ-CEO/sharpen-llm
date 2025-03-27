@@ -1,9 +1,10 @@
-from ollama import chat
+from bootcamp.groq_client import chat
 from rich import print as pprint
+from bootcamp.config import Config
 
 from bootcamp.build_ai_products.ai_toolkit.question import QuizQuestion
 
-MODEL = "qwen2.5"
+MODEL = Config.Model.LLAMA_3_3_70B
 TEMPERATURE = 0
 
 
@@ -32,8 +33,7 @@ messages = [
 response = chat(
     model=MODEL,
     messages=messages,
-    keep_alive=-1,
-    options={"temperature": TEMPERATURE},
+    temperature=TEMPERATURE,
     format=QuizQuestion.model_json_schema(),
 )
 

@@ -1,12 +1,13 @@
 import json
 from typing import Optional
 
-from ollama import chat
+from bootcamp.groq_client import chat
 from rich import print as pprint
+from bootcamp import config
 
 from bootcamp.build_ai_products.ai_toolkit.question import QuizQuestion
 
-MODEL = "qwen2.5"
+MODEL = config.Config.Model.LLAMA_3_3_70B
 TEMPERATURE = 0
 
 QUESTIONS_DATABASE = """
@@ -99,8 +100,7 @@ def retrieve_answer_with_tools(prompt: str) -> str:
     tool_selection_response = chat(
         model=MODEL,
         messages=messages,
-        keep_alive=-1,
-        options={"temperature": TEMPERATURE},
+        temperature=TEMPERATURE,
         tools=[TOOL_SPEC],
     )
 
@@ -120,8 +120,7 @@ def retrieve_answer_with_tools(prompt: str) -> str:
     final_response = chat(
         model=MODEL,
         messages=messages,
-        keep_alive=-1,
-        options={"temperature": TEMPERATURE},
+        temperature=TEMPERATURE,
     )
 
     return final_response.message.content
